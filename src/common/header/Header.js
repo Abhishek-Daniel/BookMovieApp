@@ -23,42 +23,47 @@ export default function Header(props) {
     }
 
     const [value, setValue] = useState(0);
-    
+
     const [username, setUsername] = useState("");
+
+    const [password, setPassword] = useState("");
+
+    const [lastname, setLastname] = useState("");
+
+    const [email, setEmail] = useState("");
 
     const [usernameRequired, setUsernameRequired] = useState("dispNone");
 
     const [passwordRequired, setPasswordRequired] = useState("dispNone");
 
+    const [firstname, setFirstname] = useState("");
+
     const [emailRequired, setEmailRequired] = useState("dispNone");
-    
+
     const [firstnameRequired, setFirstnameRequired] = useState("dispNone");
 
     const [lastnameRequired, setLastnameRequired] = useState("dispNone");
+
+    const [mobile, setMobile] = useState("");
+
+    const [passwordReg, setPasswordReg] = useState("");
+
+    const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
     const [mobileRequired, setMobileRequired] = useState("dispNone");
 
     const [passwordRegRequired, setPasswordRegRequired] = useState("dispNone");
 
-    const [headerState, setHeaderState] = useState({
-        modalIsOpen: false,
-        password: "",
-        email: "",
-        firstname: "",
-        lastname: "",
-        mobile: "",
-        passwordReg: "",
-        passwordRegRequired: "dispNone",
-        registrationSuccess: false,
-        loggedIn: sessionStorage.getItem('access-token') == null ? false : true
-    });
+    const [loggedIn, setLoggedIn] = useState(sessionStorage.getItem('access-token') == null ? false : true)
+
+    const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const modalOpenHandler = () => {
-        setHeaderState({ modalIsOpen: true })
+        setModalIsOpen({ modalIsOpen: true })
     };
 
     const modalCloseHandler = () => {
-        setHeaderState({ modalIsOpen: false })
+        setModalIsOpen({ modalIsOpen: false })
     }
 
     const tabHandler = (e, val) => {
@@ -78,30 +83,80 @@ export default function Header(props) {
         )
     }
 
+    let tempUsername;
     const inputUsernameChangeHandler = (e) => {
-        
+        tempUsername = e.target.value;
     }
 
+    let tempPassword;
     const inputPasswordChangeHandler = (e) => {
-        
+        tempPassword = e.target.value;
     }
-
+    let tempEmail;
     const inputEmailChangeHandler = (e) => {
- 
+        tempEmail = e.target.value;
     }
 
+    let tempFirstUsername;
     const inputFirstnameChangeHandler = (e) => {
+        tempFirstUsername = e.target.value;
     }
 
+    let tempLastName;
     const inputLastnameChangeHandler = (e) => {
+        tempLastName = e.target.value;
     }
-
+    let tempMobile;
     const inputMobileChangeHandler = (e) => {
+        tempMobile = e.target.value;
+    }
+    let tempPasswordReg;
+    const inputPasswordRegChangeHandler = (e) => {
+        tempPasswordReg = e.target.value;
     }
 
-    const inputPasswordRegChangeHandler = (e) => {
+    const loginClickHandler = () => {
+        setUsername(tempUsername);
+        setPassword(tempPassword);
+        console.log(password);
+        username === "" ? setUsernameRequired("dispBlock") : setUsernameRequired("dispNone");
+        password === "" ? setPasswordRequired("dispBlock") : setPasswordRequired("dispNone");
     }
-    
+
+    const registerClickHandler = () => {
+        setEmail(tempEmail);
+        setFirstname(tempFirstUsername);
+        setLastname(tempLastName);
+        setMobile(tempMobile);
+        setPasswordReg(tempPasswordReg);
+
+        const submitRegisterData = async () =>{
+
+            const response = await fetch('http://localhost:8085/api/v1/signup', {
+                method: 'POST',
+                body: JSON.stringify({
+                        "email_address": email,
+                        "first_name": firstname,
+                        "last_name": lastname,
+                        "mobile_number": mobile,
+                        "password": passwordReg
+                })
+            });
+
+            const content = await response.json();
+            console.log(content);
+        }
+
+        email === "" ? setEmailRequired("dispBlock") : setEmailRequired("dispNone");
+        firstname === "" ? setFirstnameRequired("dispBlock") : setFirstnameRequired("dispNone");
+        lastname === "" ? setLastnameRequired("dispBlock") : setLastnameRequired("dispNone");
+        mobile === "" ? setMobileRequired("dispBlock") : setMobileRequired("dispNone");
+        passwordReg === "" ? setPasswordRegRequired("dispBlock") : setPasswordRegRequired("dispNone");
+        if (email === "" || firstname === "" || lastname === "" || mobile === "" || passwordReg === "") { return; }
+        else {submitRegisterData()}
+
+        }
+
 
     return (
         <div>
@@ -109,7 +164,7 @@ export default function Header(props) {
             <header className="header-container">
                 <img className="logo" src={logo} alt="Logo" />
 
-                {!headerState.loggedIn ?
+                {!modalIsOpen.loggedIn ?
                     <div className="login-button">
                         <Button variant="contained" onClick={modalOpenHandler} color="default" >Login</Button>
                     </div>
@@ -118,12 +173,12 @@ export default function Header(props) {
                         <Button variant="contained" color="default" >Logout</Button>
                     </div>}
 
-                {props.showBookShowButton === "true" && !headerState.loggedIn ?
+                {props.showBookShowButton === "true" && !modalIsOpen.loggedIn ?
                     <div className="bookShow-button">
                         <Button variant="contained" color="primary" onClick={modalOpenHandler} >Book Show</Button>
                     </div> : ""}
 
-                {props.showBookShowButton === "true" && headerState.loggedIn ?
+                {props.showBookShowButton === "true" && modalIsOpen.loggedIn ?
                     <div className="bookShow-button">
                         <Link to={"/bookshow/" + props.id} />
                         <Button variant="contained" color="primary"  >Book Show</Button>
@@ -132,7 +187,7 @@ export default function Header(props) {
             </header>
             <Modal
                 ariaHideApp={false}
-                isOpen={headerState.modalIsOpen}
+                isOpen={modalIsOpen.modalIsOpen}
                 contentLabel="Login"
                 onRequestClose={modalCloseHandler}
                 style={modalStyle}>
@@ -143,6 +198,7 @@ export default function Header(props) {
                 </Tabs>
 
                 <TabPanel value={value} index={0}>
+                    <div className="modalContainerStyle">
                     <FormControl required>
                         <InputLabel htmlFor="username"> Username </InputLabel>
                         <Input id="username" type="text" username={username} onChange={inputUsernameChangeHandler} />
@@ -153,12 +209,13 @@ export default function Header(props) {
                         <Input id="password" type="password" onChange={inputPasswordChangeHandler} />
                         <FormHelperText className={passwordRequired}><span className="red">required</span></FormHelperText>
                     </FormControl><br /><br />
-                    <Button variant="contained" color="primary" >LOGIN</Button>
+                    <Button variant="contained" color="primary" onClick={loginClickHandler}>LOGIN</Button>
+                    </div>
                 </TabPanel>
 
 
                 <TabPanel value={value} index={1}>
-
+                    <div className="modalContainerStyle">
                     <FormControl required>
                         <InputLabel htmlFor="firstname">First Name</InputLabel>
                         <Input id="firstname" onChange={inputFirstnameChangeHandler} />
@@ -176,8 +233,8 @@ export default function Header(props) {
                         <Input id="email" type="email" onChange={inputEmailChangeHandler} />
                         <FormHelperText className={emailRequired}><span className="red">required</span></FormHelperText>
                     </FormControl><br /><br />
-                    
-                    
+
+
                     <FormControl required aria-describedby="name-helper-text">
                         <InputLabel htmlFor="passwordReg">Password</InputLabel>
                         <Input type="password" id="passwordReg" onChange={inputPasswordRegChangeHandler} />
@@ -189,13 +246,15 @@ export default function Header(props) {
                         <Input id="mobile" onChange={inputMobileChangeHandler} />
                         <FormHelperText className={mobileRequired}><span className="red">required</span></FormHelperText>
                     </FormControl><br /><br />
-                    {headerState.registrationSuccess === true &&
+                    {modalIsOpen.registrationSuccess === true &&
                         <FormControl>
                             <span className="successText"> Registration Successful. Please Login!</span>
                         </FormControl>}<br /><br />
-                    <Button variant="contained" color="primary">
+                    <Button variant="contained" onClick={registerClickHandler} color="primary">
                         REGISTER
                     </Button>
+
+                    </div>
                 </TabPanel>
 
             </Modal>
