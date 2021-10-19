@@ -48,22 +48,22 @@ export default function Header(props) {
 
     const [passwordReg, setPasswordReg] = useState("");
 
-    const [registrationSuccess, setRegistrationSuccess] = useState(false);
-
+    const registrationSuccess = false;
+    
     const [mobileRequired, setMobileRequired] = useState("dispNone");
 
     const [passwordRegRequired, setPasswordRegRequired] = useState("dispNone");
 
-    const [loggedIn, setLoggedIn] = useState(sessionStorage.getItem('access-token') == null ? false : true)
+    const loggedIn= false;
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const modalOpenHandler = () => {
-        setModalIsOpen({ modalIsOpen: true })
+        setModalIsOpen(true)
     };
 
     const modalCloseHandler = () => {
-        setModalIsOpen({ modalIsOpen: false })
+        setModalIsOpen(false)
     }
 
     const tabHandler = (e, val) => {
@@ -83,10 +83,12 @@ export default function Header(props) {
         )
     }
 
-    let tempUsername;
-    const inputUsernameChangeHandler = (e) => {
-        tempUsername = e.target.value;
+
+    const inputUsernameChangeHandler = event => {
+        setUsername(event.target.value);
+        console.log(username)
     }
+
 
     let tempPassword;
     const inputPasswordChangeHandler = (e) => {
@@ -116,9 +118,8 @@ export default function Header(props) {
     }
 
     const loginClickHandler = () => {
-        setUsername(tempUsername);
         setPassword(tempPassword);
-        console.log(password);
+
         username === "" ? setUsernameRequired("dispBlock") : setUsernameRequired("dispNone");
         password === "" ? setPasswordRequired("dispBlock") : setPasswordRequired("dispNone");
     }
@@ -130,22 +131,6 @@ export default function Header(props) {
         setMobile(tempMobile);
         setPasswordReg(tempPasswordReg);
 
-        const submitRegisterData = async () =>{
-
-            const response = await fetch('http://localhost:8085/api/v1/signup', {
-                method: 'POST',
-                body: JSON.stringify({
-                        "email_address": email,
-                        "first_name": firstname,
-                        "last_name": lastname,
-                        "mobile_number": mobile,
-                        "password": passwordReg
-                })
-            });
-
-            const content = await response.json();
-            console.log(content);
-        }
 
         email === "" ? setEmailRequired("dispBlock") : setEmailRequired("dispNone");
         firstname === "" ? setFirstnameRequired("dispBlock") : setFirstnameRequired("dispNone");
@@ -153,9 +138,8 @@ export default function Header(props) {
         mobile === "" ? setMobileRequired("dispBlock") : setMobileRequired("dispNone");
         passwordReg === "" ? setPasswordRegRequired("dispBlock") : setPasswordRegRequired("dispNone");
         if (email === "" || firstname === "" || lastname === "" || mobile === "" || passwordReg === "") { return; }
-        else {submitRegisterData()}
 
-        }
+    }
 
 
     return (
@@ -164,7 +148,7 @@ export default function Header(props) {
             <header className="header-container">
                 <img className="logo" src={logo} alt="Logo" />
 
-                {!modalIsOpen.loggedIn ?
+                {!loggedIn ?
                     <div className="login-button">
                         <Button variant="contained" onClick={modalOpenHandler} color="default" >Login</Button>
                     </div>
@@ -173,12 +157,12 @@ export default function Header(props) {
                         <Button variant="contained" color="default" >Logout</Button>
                     </div>}
 
-                {props.showBookShowButton === "true" && !modalIsOpen.loggedIn ?
+                {props.showBookShowButton === "true" && !loggedIn ?
                     <div className="bookShow-button">
                         <Button variant="contained" color="primary" onClick={modalOpenHandler} >Book Show</Button>
                     </div> : ""}
 
-                {props.showBookShowButton === "true" && modalIsOpen.loggedIn ?
+                {props.showBookShowButton === "true" && loggedIn ?
                     <div className="bookShow-button">
                         <Link to={"/bookshow/" + props.id} />
                         <Button variant="contained" color="primary"  >Book Show</Button>
@@ -187,7 +171,7 @@ export default function Header(props) {
             </header>
             <Modal
                 ariaHideApp={false}
-                isOpen={modalIsOpen.modalIsOpen}
+                isOpen={modalIsOpen}
                 contentLabel="Login"
                 onRequestClose={modalCloseHandler}
                 style={modalStyle}>
@@ -199,60 +183,63 @@ export default function Header(props) {
 
                 <TabPanel value={value} index={0}>
                     <div className="modalContainerStyle">
-                    <FormControl required>
-                        <InputLabel htmlFor="username"> Username </InputLabel>
-                        <Input id="username" type="text" username={username} onChange={inputUsernameChangeHandler} />
-                        <FormHelperText className={usernameRequired}><span className="red">required</span></FormHelperText>
-                    </FormControl><br /><br />
-                    <FormControl required>
-                        <InputLabel htmlFor="password"> Password </InputLabel>
-                        <Input id="password" type="password" onChange={inputPasswordChangeHandler} />
-                        <FormHelperText className={passwordRequired}><span className="red">required</span></FormHelperText>
-                    </FormControl><br /><br />
-                    <Button variant="contained" color="primary" onClick={loginClickHandler}>LOGIN</Button>
+                        <FormControl required>
+                            <InputLabel htmlFor="username"> Username </InputLabel>
+                            {/* <Input id="username" type="text" value={username} onChange={inputUsernameChangeHandler} /> */}
+                            
+                            <Input id="username" type="text" onChange={inputUsernameChangeHandler} />
+                            
+                            <FormHelperText className={usernameRequired}><span className="red">required</span></FormHelperText>
+                        </FormControl><br /><br />
+                        <FormControl required>
+                            <InputLabel htmlFor="password"> Password </InputLabel>
+                            <Input id="password" type="password" onChange={inputPasswordChangeHandler} />
+                            <FormHelperText className={passwordRequired}><span className="red">required</span></FormHelperText>
+                        </FormControl><br /><br />
+                        <Button variant="contained" color="primary" onClick={loginClickHandler}>LOGIN</Button>
                     </div>
                 </TabPanel>
 
 
                 <TabPanel value={value} index={1}>
                     <div className="modalContainerStyle">
-                    <FormControl required>
-                        <InputLabel htmlFor="firstname">First Name</InputLabel>
-                        <Input id="firstname" onChange={inputFirstnameChangeHandler} />
-                        <FormHelperText className={firstnameRequired}><span className="red">required</span></FormHelperText>
-                    </FormControl><br /><br />
+                        <FormControl required>
+                            <InputLabel htmlFor="firstname">First Name</InputLabel>
+                            <Input id="firstname" onChange={inputFirstnameChangeHandler} />
+                            <FormHelperText className={firstnameRequired}><span className="red">required</span></FormHelperText>
+                        </FormControl><br /><br />
 
-                    <FormControl required>
-                        <InputLabel htmlFor="lastname">Last Name</InputLabel>
-                        <Input id="lastname" onChange={inputLastnameChangeHandler} />
-                        <FormHelperText className={lastnameRequired}><span className="red">required</span></FormHelperText>
-                    </FormControl><br /><br />
+                        <FormControl required>
+                            <InputLabel htmlFor="lastname">Last Name</InputLabel>
+                            <Input id="lastname" onChange={inputLastnameChangeHandler} />
+                            <FormHelperText className={lastnameRequired}><span className="red">required</span></FormHelperText>
+                        </FormControl><br /><br />
 
-                    <FormControl required>
-                        <InputLabel htmlFor="email">Email</InputLabel>
-                        <Input id="email" type="email" onChange={inputEmailChangeHandler} />
-                        <FormHelperText className={emailRequired}><span className="red">required</span></FormHelperText>
-                    </FormControl><br /><br />
+                        <FormControl required>
+                            <InputLabel htmlFor="email">Email</InputLabel>
+                            <Input id="email" type="email" onChange={inputEmailChangeHandler} />
+                            <FormHelperText className={emailRequired}><span className="red">required</span></FormHelperText>
+                        </FormControl><br /><br />
 
 
-                    <FormControl required aria-describedby="name-helper-text">
-                        <InputLabel htmlFor="passwordReg">Password</InputLabel>
-                        <Input type="password" id="passwordReg" onChange={inputPasswordRegChangeHandler} />
-                        <FormHelperText className={passwordRegRequired}><span className="red">required</span></FormHelperText>
-                    </FormControl><br /><br />
+                        <FormControl required aria-describedby="name-helper-text">
+                            <InputLabel htmlFor="passwordReg">Password</InputLabel>
+                            <Input type="password" id="passwordReg" onChange={inputPasswordRegChangeHandler} />
+                            <FormHelperText className={passwordRegRequired}><span className="red">required</span></FormHelperText>
+                        </FormControl><br /><br />
 
-                    <FormControl required>
-                        <InputLabel htmlFor="mobile">Mobile Number</InputLabel>
-                        <Input id="mobile" onChange={inputMobileChangeHandler} />
-                        <FormHelperText className={mobileRequired}><span className="red">required</span></FormHelperText>
-                    </FormControl><br /><br />
-                    {modalIsOpen.registrationSuccess === true &&
-                        <FormControl>
-                            <span className="successText"> Registration Successful. Please Login!</span>
-                        </FormControl>}<br /><br />
-                    <Button variant="contained" onClick={registerClickHandler} color="primary">
-                        REGISTER
-                    </Button>
+                        <FormControl required>
+                            <InputLabel htmlFor="mobile">Mobile Number</InputLabel>
+                            <Input id="mobile" onChange={inputMobileChangeHandler} />
+                            <FormHelperText className={mobileRequired}><span className="red">required</span></FormHelperText>
+                        </FormControl><br /><br />
+                        {registrationSuccess === true &&
+                            <FormControl>
+                                <span className="successText"> Registration Successful. Please Login!</span>
+                            </FormControl>}<br /><br />
+                        <Button variant="contained" onClick={registerClickHandler} color="primary">
+                            REGISTER
+                        </Button>
 
                     </div>
                 </TabPanel>
