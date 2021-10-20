@@ -135,72 +135,72 @@ const Home = (props) => {
             description: "Drama"
         },
         {
-            "id": "2d174a25-ba31-45a8-85b4-b06ffc9d5f8f",
-            "genre": "Romance",
-            "description": "Romance"
+            id: 1,
+            genre: "Romance",
+            description: "Romance"
         },
         {
-            "id": "3d174a25-ba31-45a8-85b4-b06ffc9d5f8f",
-            "genre": "Horror",
-            "description": "Horror"
+            id: 2,
+            genre: "Horror",
+            description: "Horror"
         },
         {
-            "id": "4d174a25-ba31-45a8-85b4-b06ffc9d5f8f",
-            "genre": "Action",
-            "description": "Action"
+            iD: 3,
+            genre: "Action",
+            description: "Action"
         },
         {
-            "id": "5d174a25-ba31-45a8-85b4-b06ffc9d5f8f",
-            "genre": "Crime",
-            "description": "Crime"
+            id: 4,
+            genre: "Crime",
+            description: "Crime"
         },
         {
-            "id": "6d174a25-ba31-45a8-85b4-b06ffc9d5f8f",
-            "genre": "Thriller",
-            "description": "Thriller"
+            id: 5,
+            genre: "Thriller",
+            description: "Thriller"
         },
         {
-            "id": "7d174a25-ba31-45a8-85b4-b06ffc9d5f8f",
-            "genre": "Political",
-            "description": "Political"
+            id: 6,
+            genre: "Political",
+            description: "Political"
         },
         {
-            "id": "8d174a25-ba31-45a8-85b4-b06ffc9d5f8f",
-            "genre": "Social",
-            "description": "Social"
+            id: 7,
+            genre: "Social",
+            description: "Social"
         },
         {
-            "id": "9d174a25-ba31-45a8-85b4-b06ffc9d5f8f",
-            "genre": "Fantasy",
-            "description": "Fantasy"
+            id: 8,
+            genre: "Fantasy",
+            description: "Fantasy"
         },
         {
-            "id": "aa174a25-ba31-45a8-85b4-b06ffc9d5f8f",
-            "genre": "Suspense",
-            "description": "Suspense"
+            id: 9,
+            genre: "Suspense",
+            description: "Suspense"
         },
         {
-            "id": "bb174a25-ba31-45a8-85b4-b06ffc9d5f8f",
-            "genre": "Adventure",
-            "description": "Adventure"
+            id: 10,
+            genre: "Adventure",
+            description: "Adventure"
         },
         {
-            "id": "cc174a25-ba31-45a8-85b4-b06ffc9d5f8f",
-            "genre": "Comedy",
-            "description": "Comedy"
+            id: 11,
+            genre: "Comedy",
+            description: "Comedy"
         },
         {
-            "id": "dd174a25-ba31-45a8-85b4-b06ffc9d5f8f",
-            "genre": "Scifi",
-            "description": "Science Fiction"
+            id: 12,
+            genre: "Scifi",
+            description: "Science Fiction"
         },
         {
-            "id": "ee174a25-ba31-45a8-85b4-b06ffc9d5f8f",
-            "genre": "Historical",
+            id: 13,
+            genre: "Historical",
             "description": "Historical"
         }
     ]);
-    const [artistsList, setartistsList] = useState([{}]);
+    const artistsList= [];
     const [genres, setgenres] = useState([]);
     const [artists, setartists] = useState([]);
     const [releaseDateStart, setreleaseDateStart] = useState("");
@@ -305,22 +305,6 @@ const Home = (props) => {
 
     const filterApplyHandler = () => {
 
-        let queryString = "?status=RELEASED";
-        if (movieName !== "") {
-            queryString += "&title=" + movieName;
-        }
-        if (genres.length > 0) {
-            queryString += "&genres=" + genres.toString();
-        }
-        if (artists.length > 0) {
-            queryString += "&artist_name=" + artists.toString();
-        }
-        if (releaseDateStart !== "") {
-            queryString += "&start_date=" + releaseDateStart
-        }
-        if (releaseDateEnd !== "") {
-            queryString += "&end_date=" + releaseDateEnd
-        }
         
 
     }
