@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Header from '../../common/header/Header'
 import Typography from '@material-ui/core/Typography';
 import './Details.css';
@@ -16,7 +16,7 @@ export default function Details(props) {
 
     const movie = [
         {
-            movieposter_url: "http://image.tmdb.org/t/p/w300//xmbU4JTUm8rsdtn7Y3Fcm30GpeT.jpg",
+            movieposter_url: "http://image.tmdb.org/t/p/w500//xmbU4JTUm8rsdtn7Y3Fcm30GpeT.jpg",
             trailer_url: "https://www.youtube.com/watch?v=X2m-08cOAbc",
             artists: [{
                 wiki_url: "https://en.wikipedia.org/wiki/Ryan_Reynolds",
@@ -36,7 +36,7 @@ export default function Details(props) {
             duration: "115",
             release_date: "Sep 17, 2021",
             critics_rating: 4,
-            wiki_url: "www.youtube.com",
+            wiki_url: "https://en.wikipedia.org/wiki/Free_Guy",
             storyline: "Guy (Ryan Reynolds) is a bank teller and a non-playable character in an open world video game called Free City.All is going well in his virtual world until publisher Antoine (Taika Waititi) decides to insert a code developed by programmers Keys (Joe Keery) and Milly (Jodie Comer) into the game. All of a sudden, he finds himself imbued with consciousness. As he grows increasingly aware of his surroundings, he is confronted with the fact that he is a background character and that he is the only person who can save their game from going offline. Directed by Shawn Levy.",
             artistsMap: 1,
 
@@ -128,7 +128,7 @@ export default function Details(props) {
                 profile_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Emily_Blunt_SAG_Awards_2019.png/220px-Emily_Blunt_SAG_Awards_2019.png"
             }],
         },{
-            movieposter_url: "http://image.tmdb.org/t/p/w300//hRMfgGFRAZIlvwVWy8DYJdLTpvN.jpg",
+            movieposter_url: "http://image.tmdb.org/t/p/w500//hRMfgGFRAZIlvwVWy8DYJdLTpvN.jpg",
             trailer_url: "https://www.youtube.com/watch?v=dCDLPlZAoeY",
             title: "Don't Breathe 2",
             genres: ["Crime", "Horror", "Thriller"],
@@ -227,32 +227,60 @@ export default function Details(props) {
         }
     ];
 
-    const starIcons = [{
-        id: 1,
-        stateId: "star1",
-        color: "black"
-    },
-    {
-        id: 2,
-        stateId: "star2",
-        color: "black"
-    },
-    {
-        id: 3,
-        stateId: "star3",
-        color: "black"
-    },
-    {
-        id: 4,
-        stateId: "star4",
-        color: "black"
-    },
-    {
-        id: 5,
-        stateId: "star5",
-        color: "black"
-    }
-    ];
+    // const starIcons = [{
+    //     id: 1,
+    //     stateId: "star1",
+    //     color: "black"
+    // },
+    // {
+    //     id: 2,
+    //     stateId: "star2",
+    //     color: "black"
+    // },
+    // {
+    //     id: 3,
+    //     stateId: "star3",
+    //     color: "black"
+    // },
+    // {
+    //     id: 4,
+    //     stateId: "star4",
+    //     color: "black"
+    // },
+    // {
+    //     id: 5,
+    //     stateId: "star5",
+    //     color: "black"
+    // }
+    // ];
+
+    const [starIcons, setstarIcons] = useState([{
+            id: 1,
+            stateId: "star1",
+            color: "black"
+        },
+        {
+            id: 2,
+            stateId: "star2",
+            color: "black"
+        },
+        {
+            id: 3,
+            stateId: "star3",
+            color: "black"
+        },
+        {
+            id: 4,
+            stateId: "star4",
+            color: "black"
+        },
+        {
+            id: 5,
+            stateId: "star5",
+            color: "black"
+        }
+        ]);
+
 
     const artistClickHandler = (url) => {
         window.location = url;
@@ -266,7 +294,23 @@ export default function Details(props) {
     }
 
     const play = (event) => {
-        event.target.pauseVideo;
+        event.target.pauseVideo();
+    }
+
+    const starClickHandler = (id) => {
+        let starIconList = [];
+        for (let star of starIcons) {
+            let starNode = star;
+            if (star.id <= id) {
+                starNode.color = "yellow"
+            }
+            else {
+                starNode.color = "black";
+
+            }
+            starIconList.push(starNode);
+        }
+        setstarIcons(starIconList);
     }
 
     return (
@@ -281,7 +325,7 @@ export default function Details(props) {
                 </div>
                 <div className="flex-containerDetails">
                     <div className="leftDetails">
-                        <img src={movie[settedID].movieposter_url} alt={movie[settedID].title} />
+                        <img className="movie-poster" src={movie[settedID].movieposter_url} alt={movie[settedID].title} />
                     </div>
                     <div className="middleDetails">
                         <div>
@@ -305,16 +349,6 @@ export default function Details(props) {
                         <div className="trailerContainer">
                             <Typography><span className="bold">Trailer:</span></Typography>
 
-
-                            {/* <iframe
-                                width="760"
-                                height="500"
-                                src='https://www.youtube.com/embed/X2m-08cOAbc'
-                                title="YouTube video player"
-                                frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen>
-                            </iframe> */}
-
                             <YouTube
                                 videoId={movie[settedID].trailer_url.split("?v=")[1]}
                                 opts={opts}
@@ -326,12 +360,12 @@ export default function Details(props) {
                     <div className="rightDetails">
                         <Typography> <span className="bold">Rate this movie: </span></Typography>
                         {starIcons.map(star => (
-                            <StarBorderIcon className={star.color} key={"star" + star.id} onClick={() => this.starClickHandler(star.id)} />
+                            <StarBorderIcon className={star.color} key={"star" + star.id} onClick={() => starClickHandler(star.id)} />
                         ))}
                         <div className="bold marginBottom16 marginTop16"><Typography><span className="bold">Artists:</span></Typography></div>
                         <GridList cellHeight={160} cols={2}>
                             {movie[settedID].artists.map(artist => (
-                                <GridListTile className="gridTile" onClick={() => this.artistClickHandler(artist.wiki_url)} key={artist.id}>
+                                <GridListTile className="gridTile" onClick={() => artistClickHandler(artist.wiki_url)} key={artist.id}>
                                     <img src={artist.profile_url} alt={artist.first_name + " " + artist.last_name} />
                                     <GridListTileBar
                                         title={artist.first_name + " " + artist.last_name}

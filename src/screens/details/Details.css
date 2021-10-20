@@ -69,6 +69,10 @@
     margin: 0px 16px;
 }
 
+.movie-poster {
+    width: 90%;
+}
+
 @media (max-width: 992px) {
     .leftDetails {
         width: 100%;
