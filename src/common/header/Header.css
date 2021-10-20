@@ -1,56 +1,53 @@
-.header-container{
+.header-container {
     background-color: #222;
     height: 36px;
     padding: 8px 32px 8px 16px;
 }
 
-.logo{
+.logo {
     background-color: #ff7f7f;
     height: 35px;
     animation: logo-spin infinite 8s linear;
     position: absolute;
     left: initial;
-
 }
 
-@keyframes logo-spin{
-    from { transform: scaleX(-1);}
+@keyframes logo-spin {
+    from {
+        transform: scaleX(-1);
+    }
 }
 
-.login-button, .bookShow-button{
+.login-button,
+.bookShow-button {
     float: right;
 }
 
-.bookShow-button{
+.bookShow-button {
     margin-right: 10px;
 }
 
-.tabs{
+.tabs {
     margin-bottom: 20px;
 }
 
-
-
-
-.dispNone{
-    display:none;
+.dispNone {
+    display: none;
 }
 
 .dispBlock {
     display: block;
 }
 
-.red
-{
+.red {
     color: red;
 }
 
-.form-control-css{
+.form-control-css {
     margin: auto;
 }
 
-
-.modalContainerStyle{
+.modalContainerStyle {
     padding: 0px;
     text-align: center
 }

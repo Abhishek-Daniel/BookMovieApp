@@ -18,7 +18,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
-
 const styles = theme => ({
     root: {
         flexGrow: 1,
@@ -52,7 +51,8 @@ const styles = theme => ({
 const Home = (props) => {
 
     const [movieName, setmovieName] = useState("");
-    const releasedMovies= [{
+    const releasedMovies = [
+        {
         id: 0,
         poster_url: "http://image.tmdb.org/t/p/w500//xmbU4JTUm8rsdtn7Y3Fcm30GpeT.jpg",
         movieName: "Free Guy",
@@ -98,10 +98,10 @@ const Home = (props) => {
 
     }, {
         id: 6,
-        poster_url: "http://image.tmdb.org/t/p/w500//rxxZIKVLioIFHi62WPm7jWPqFIw.jpg",
-        movieName: "Cato",
-        title: "Cato",
-        release_date: "Oct 14, 2021"
+        poster_url: "http://image.tmdb.org/t/p/w500//xYLBgw7dHyEqmcrSk2Sq3asuSq5.jpg",
+        movieName: "The Addams Family 2",
+        title: "The Addams Family 2",
+        release_date: "Oct 1, 2021"
     },
     {
         id: 7,
@@ -128,78 +128,77 @@ const Home = (props) => {
 
     }];
 
-
     const genresList = ([
         {
             id: "0",
             genre: "Drama",
             description: "Drama"
-          },
-          {
+        },
+        {
             "id": "2d174a25-ba31-45a8-85b4-b06ffc9d5f8f",
             "genre": "Romance",
             "description": "Romance"
-          },
-          {
+        },
+        {
             "id": "3d174a25-ba31-45a8-85b4-b06ffc9d5f8f",
             "genre": "Horror",
             "description": "Horror"
-          },
-          {
+        },
+        {
             "id": "4d174a25-ba31-45a8-85b4-b06ffc9d5f8f",
             "genre": "Action",
             "description": "Action"
-          },
-          {
+        },
+        {
             "id": "5d174a25-ba31-45a8-85b4-b06ffc9d5f8f",
             "genre": "Crime",
             "description": "Crime"
-          },
-          {
+        },
+        {
             "id": "6d174a25-ba31-45a8-85b4-b06ffc9d5f8f",
             "genre": "Thriller",
             "description": "Thriller"
-          },
-          {
+        },
+        {
             "id": "7d174a25-ba31-45a8-85b4-b06ffc9d5f8f",
             "genre": "Political",
             "description": "Political"
-          },
-          {
+        },
+        {
             "id": "8d174a25-ba31-45a8-85b4-b06ffc9d5f8f",
             "genre": "Social",
             "description": "Social"
-          },
-          {
+        },
+        {
             "id": "9d174a25-ba31-45a8-85b4-b06ffc9d5f8f",
             "genre": "Fantasy",
             "description": "Fantasy"
-          },
-          {
+        },
+        {
             "id": "aa174a25-ba31-45a8-85b4-b06ffc9d5f8f",
             "genre": "Suspense",
             "description": "Suspense"
-          },
-          {
+        },
+        {
             "id": "bb174a25-ba31-45a8-85b4-b06ffc9d5f8f",
             "genre": "Adventure",
             "description": "Adventure"
-          },
-          {
+        },
+        {
             "id": "cc174a25-ba31-45a8-85b4-b06ffc9d5f8f",
             "genre": "Comedy",
             "description": "Comedy"
-          },
-          {
+        },
+        {
             "id": "dd174a25-ba31-45a8-85b4-b06ffc9d5f8f",
             "genre": "Scifi",
             "description": "Science Fiction"
-          },
-          {
+        },
+        {
             "id": "ee174a25-ba31-45a8-85b4-b06ffc9d5f8f",
             "genre": "Historical",
             "description": "Historical"
-          }
+        }
     ]);
     const [artistsList, setartistsList] = useState([{}]);
     const [genres, setgenres] = useState([]);
@@ -207,7 +206,7 @@ const Home = (props) => {
     const [releaseDateStart, setreleaseDateStart] = useState("");
     const [releaseDateEnd, setreleaseDateEnd] = useState("");
 
-    const upcomingMovies=[{
+    const upcomingMovies = [{
         id: 0,
         poster_url: "http://image.tmdb.org/t/p/w500//4NUzcKtYPKkfTwKsLjwNt8nRIXV.jpg",
         movieName: "My Hero Academia: World Heroes' Mission",
@@ -274,7 +273,7 @@ const Home = (props) => {
     }
     ];
 
-   
+
 
     useEffect(() => {
         // getGenres();
@@ -322,13 +321,13 @@ const Home = (props) => {
         if (releaseDateEnd !== "") {
             queryString += "&end_date=" + releaseDateEnd
         }
+        
 
     }
     const { classes } = props;
 
     const movieClickHandler = (movieId) => {
         props.history.push('/movie/' + movieId);
-
 
     }
 
@@ -382,7 +381,7 @@ const Home = (props) => {
                                         input={<Input id="select-multiple-checkbox" />}
                                         renderValue={selected => selected.join(',')}
                                         value={genres}
-                                        onChange={this.genreSelectHandler}>
+                                        onChange={genreSelectHandler}>
                                         <MenuItem value="0">None
                                         </MenuItem>
                                         {genresList.map(genre => (
