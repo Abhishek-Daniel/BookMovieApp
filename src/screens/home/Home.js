@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Header from '../../common/header/Header'
 import './Home.css';
 import GridList from '@material-ui/core/GridList';
@@ -274,13 +274,6 @@ const Home = (props) => {
     ];
 
 
-
-    useEffect(() => {
-        // getGenres();
-        // getMovies();
-
-    }, []);
-
     const movieNameChangeHandler = event => {
         setmovieName(event.target.value);
         console.log(movieName)
@@ -399,7 +392,7 @@ const Home = (props) => {
                                         id="releaseDateStart"
                                         label="Release Date Start"
                                         type="date"
-                                        defaultValue=""
+                                        Value={releaseDateStart}
                                         InputLabelProps={{ shrink: true }}
                                         onChange={releaseDateStartHandler}
                                     />
@@ -409,7 +402,7 @@ const Home = (props) => {
                                         id="releaseDateEnd"
                                         label="Release Date End"
                                         type="date"
-                                        defaultValue=""
+                                        Value={releaseDateEnd}
                                         InputLabelProps={{ shrink: true }}
                                         onChange={releaseDateEndHandler}
                                     />
